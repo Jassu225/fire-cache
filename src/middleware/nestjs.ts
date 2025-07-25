@@ -28,7 +28,7 @@ export function FireCacheInterceptor(firestore: FirestoreInstance): Type<NestInt
 // We also need to export a module for easy integration.
 import { DynamicModule, Module, Type } from '@nestjs/common';
 
-export const FIRESTORE_INSTANCE_PROVIDER = 'FIRESTORE_INSTANCE'; // Export this constant
+export const FIRESTORE_INSTANCE_PROVIDER = '@@__FIRESTORE_INSTANCE__@@'; // Export this constant
 
 @Module({})
 export class FireCacheModule {
