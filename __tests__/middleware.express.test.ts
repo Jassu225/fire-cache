@@ -2,7 +2,7 @@ import express from 'express';
 import request from 'supertest';
 import { fireCacheMiddleware } from '../src/middleware/express';
 import type { FirestoreInstance } from '../src/core/cache';
-import { getCallCountRef, mockFirestore } from './test-helper';
+import { getCallCountRef, mockFirestore } from './mock-test-helper';
 
 
 // --- Tests ---

@@ -17,7 +17,6 @@ export const getCallCountRef = {
 class MockDocumentReference {
   constructor(public path: string, private data: any) {}
   get() {
-    console.log(`MockDocumentReference.get called for path: ${this.path}`);
     getCallCountRef.current++;
     return Promise.resolve(mockDocSnapshot(this.path, this.data));
   }
