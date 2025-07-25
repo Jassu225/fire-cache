@@ -1,21 +1,14 @@
 import { createRequestCache, DocumentReferenceType } from '../src/core/cache';
-import { config as dotenvConfig } from 'dotenv';
 import {v4 as uuidV4} from 'uuid';
+import admin from 'firebase-admin';
 
-dotenvConfig({ path: '.env.test' });
-
-const admin = require('firebase-admin');
-
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT
-  ? JSON.parse(atob(process.env.FIREBASE_SERVICE_ACCOUNT))
-  : undefined;
+import { serviceAccount, testCollection } from './test-helper';
 
 const shouldRun = !!serviceAccount;
 
 (shouldRun ? describe : describe.skip)('fire-cache integration with real Firestore', () => {
-  let firestore: import('firebase-admin').firestore.Firestore;
+  let firestore: admin.firestore.Firestore;
   let cleanup: () => void;
-  let testCollection: string;
   let testDocId: string;
 
   beforeAll(async () => {
@@ -25,7 +18,6 @@ const shouldRun = !!serviceAccount;
       });
     }
     firestore = admin.firestore();
-    testCollection = `firecache_test_${uuidV4()}`;
     testDocId = uuidV4();
     await firestore.collection(testCollection).doc(testDocId).set({ foo: 'bar', ts: Date.now() });
   });
@@ -62,6 +54,7 @@ const shouldRun = !!serviceAccount;
     expect(snap2.data()?.foo).toBe('bar');
     expect(mockGet).toHaveBeenCalledTimes(1);
 
+    docRefPrototype.get = originalGet; // Restore original get method
     cleanup();
   });
 });
