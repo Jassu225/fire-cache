@@ -1,4 +1,4 @@
-import { createRequestCache } from '../src/core/cache';
+import { createRequestCache, DocumentReferenceType } from '../src/core/cache';
 import { config as dotenvConfig } from 'dotenv';
 import {v4 as uuidV4} from 'uuid';
 
@@ -41,6 +41,11 @@ const shouldRun = !!serviceAccount;
 
   it('should cache a real document get request', async () => {
     if (!firestore) return;
+    const docRefPrototype = Object.getPrototypeOf(firestore.collection(testCollection).doc(testDocId)) as DocumentReferenceType;
+    const originalGet = docRefPrototype.get;
+    const mockGet = jest.fn(originalGet);
+    docRefPrototype.get = mockGet;
+
     cleanup = createRequestCache(firestore);
 
     const docRef = firestore.collection(testCollection).doc(testDocId);
@@ -49,11 +54,13 @@ const shouldRun = !!serviceAccount;
     const snap1 = await docRef.get();
     expect(snap1.exists).toBe(true);
     expect(snap1.data()?.foo).toBe('bar');
+    expect(mockGet).toHaveBeenCalledTimes(1);
 
     // Second call (should hit cache, not Firestore)
     const snap2 = await docRef.get();
     expect(snap2.exists).toBe(true);
     expect(snap2.data()?.foo).toBe('bar');
+    expect(mockGet).toHaveBeenCalledTimes(1);
 
     cleanup();
   });
