@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc --project tsconfig.build.json",
     "test": "jest",
     "test:mock": "jest --testPathPattern=\"^.*__tests__.*\\.mock\\.test\\.ts$\"",
     "test:firebase-admin": "jest --testPathPattern=\"^.*__tests__.*\\.firebase-admin\\.test\\.ts$\"",
@@ -94,5 +94,10 @@
     "typescript": "^5.3.3",
     "uuid": "^11.1.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jassu225/fire-cache"
+  },
+  "homepage": "https://github.com/Jassu225/fire-cache/blob/main/README.md"
 }
