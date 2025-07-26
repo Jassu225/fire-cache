@@ -6,6 +6,7 @@ import { FirestoreInstance } from '../core/cache.js';
  */
 export declare function FireCacheInterceptor(firestore: FirestoreInstance): Type<NestInterceptor>;
 import { DynamicModule, Type } from '@nestjs/common';
+export declare const FIRESTORE_INSTANCE_PROVIDER = "@@__FIRESTORE_INSTANCE__@@";
 export declare class FireCacheModule {
     static forRoot(options: {
         firestore: FirestoreInstance;

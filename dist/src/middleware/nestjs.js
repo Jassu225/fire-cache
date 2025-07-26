@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var FireCacheModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FireCacheModule = void 0;
+exports.FireCacheModule = exports.FIRESTORE_INSTANCE_PROVIDER = void 0;
 exports.FireCacheInterceptor = FireCacheInterceptor;
 const common_1 = require("@nestjs/common");
 const operators_1 = require("rxjs/operators");
@@ -34,14 +34,14 @@ function FireCacheInterceptor(firestore) {
 }
 // We also need to export a module for easy integration.
 const common_2 = require("@nestjs/common");
-const FIRESTORE_INSTANCE_PROVIDER = 'FIRESTORE_INSTANCE';
+exports.FIRESTORE_INSTANCE_PROVIDER = '@@__FIRESTORE_INSTANCE__@@'; // Export this constant
 let FireCacheModule = FireCacheModule_1 = class FireCacheModule {
     static forRoot(options) {
         return {
             module: FireCacheModule_1,
             providers: [
                 {
-                    provide: FIRESTORE_INSTANCE_PROVIDER,
+                    provide: exports.FIRESTORE_INSTANCE_PROVIDER,
                     useValue: options.firestore,
                 },
                 {
@@ -49,7 +49,7 @@ let FireCacheModule = FireCacheModule_1 = class FireCacheModule {
                     useFactory: (firestore) => {
                         return FireCacheInterceptor(firestore);
                     },
-                    inject: [FIRESTORE_INSTANCE_PROVIDER],
+                    inject: [exports.FIRESTORE_INSTANCE_PROVIDER],
                 }
             ],
         };

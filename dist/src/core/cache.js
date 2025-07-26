@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createRequestCache = createRequestCache;
 // A type guard to check if the firestore instance is from firebase-admin
-function isAdminFirestore(db) {
-    // firebase-admin's Firestore class has a `app` property.
-    return 'app' in db;
-}
+// function isAdminFirestore(db: FirestoreInstance): db is adminFirestore.Firestore {
+//     // firebase-admin's Firestore class has a `app` property.
+//     return 'app' in db;
+// }
 /**
  * Creates a request-scoped cache and patches the `get` methods of the provided
  * Firestore instance to use the cache.
@@ -34,11 +34,9 @@ function createRequestCache(firestore) {
     docRefPrototype.get = function () {
         const key = this.path;
         if (cache.has(key)) {
-            console.log(`Cache hit for document: ${key}`);
             // We use a non-null assertion (!) because the `if` check guarantees the key exists.
             return cache.get(key);
         }
-        console.log(`Cache miss for document: ${key}`);
         if (!originalDocGet) {
             throw new Error('Original get method is undefined');
         }

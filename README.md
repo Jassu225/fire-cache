@@ -20,6 +20,13 @@
 npm install fire-cache
 ```
 
+### Optional Peer Dependencies
+Depending on your framework of choice, you may need to install additional packages:
+
+- `@nestjs/common` (for NestJS)
+- `on-finished` (for Express)
+- `rxjs` (for Koa)
+
 ---
 
 ## Usage
