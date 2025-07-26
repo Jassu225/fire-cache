@@ -39,6 +39,8 @@
     "clean": "rm -rf dist",
     "build": "npm run clean && tsc",
     "test": "jest",
+    "test:mock": "jest --testPathPattern=\"^.*__tests__.*\\.mock\\.test\\.ts$\"",
+    "test:firebase-admin": "jest --testPathPattern=\"^.*__tests__.*\\.firebase-admin\\.test\\.ts$\"",
     "prepare": "npm run build"
   },
   "keywords": [
