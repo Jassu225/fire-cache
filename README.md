@@ -128,6 +128,18 @@ Each middleware sets up and tears down the cache automatically per request.
 - **Unit tests**: Fast, mock-based, cover all core logic.
 - **Integration tests**: Use a real Firestore instance (see `.env.test` and `FIREBASE_SERVICE_ACCOUNT`).
 
+
+You can run the mock tests with:
+
+```bash
+npm run test:mock
+```
+
+And the Firebase Admin integration tests with:
+
+```bash
+npm run test:firebase-admin
+```
 ---
 
 ## Contributing
