@@ -92,9 +92,9 @@ typings/
 public
 
 # tests
-__tests__/
-src/**/*.test.ts
-src/**/*.spec.ts
+# __tests__/
+# src/**/*.test.ts
+# src/**/*.spec.ts
 
 # configs
 jest.config.js

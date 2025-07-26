@@ -1,6 +1,6 @@
-# fire-cache
+# fire-memoize
 
-**fire-cache** is a transparent, request-scoped caching library for Google Firestore (Node.js), designed for use with Express, NestJS, and Koa. It dramatically reduces redundant Firestore reads within a single request, while guaranteeing data freshness and type safety.
+**fire-memoize** is a transparent, request-scoped caching library for Google Firestore (Node.js), designed for use with Express, NestJS, and Koa. It dramatically reduces redundant Firestore reads within a single request, while guaranteeing data freshness and type safety.
 
 ---
 
@@ -17,7 +17,7 @@
 ## Installation
 
 ```bash
-npm install fire-cache
+npm install fire-memoize
 ```
 
 ### Optional Peer Dependencies
@@ -35,7 +35,7 @@ Depending on your framework of choice, you may need to install additional packag
 
 ```ts
 import express from 'express';
-import { createExpressFirestoreCache } from 'fire-cache/middleware/express';
+import { createExpressFirestoreCache } from 'fire-memoize/middleware/express';
 import admin from 'firebase-admin';
 
 admin.initializeApp({ /* ... */ });
@@ -51,7 +51,7 @@ app.use(createExpressFirestoreCache(firestore));
 
 ```ts
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { createNestjsFirestoreCache } from 'fire-cache/middleware/nestjs';
+import { createNestjsFirestoreCache } from 'fire-memoize/middleware/nestjs';
 import admin from 'firebase-admin';
 
 admin.initializeApp({ /* ... */ });
@@ -71,7 +71,7 @@ export class AppModule implements NestModule {
 
 ```ts
 import Koa from 'koa';
-import { createKoaFirestoreCache } from 'fire-cache/middleware/koa';
+import { createKoaFirestoreCache } from 'fire-memoize/middleware/koa';
 import admin from 'firebase-admin';
 
 admin.initializeApp({ /* ... */ });
@@ -99,7 +99,7 @@ app.use(createKoaFirestoreCache(firestore));
 ### Core
 
 ```ts
-import { createRequestCache } from 'fire-cache/core/cache';
+import { createRequestCache } from 'fire-memoize/core/cache';
 
 const cleanup = createRequestCache(firestore);
 // ...do Firestore reads
@@ -126,7 +126,7 @@ Each middleware sets up and tears down the cache automatically per request.
 ## Testing
 
 - **Unit tests**: Fast, mock-based, cover all core logic.
-- **Integration tests**: Use a real Firestore instance (see `.env.test` and `FIREBASE_SERVICE_ACCOUNT`).
+- **Integration tests**: Use a real Firestore instance (add `FIREBASE_SERVICE_ACCOUNT` with the value atob(JSON.stringify(service_account.json)) to `.env.test`).
 
 
 You can run the mock tests with:
