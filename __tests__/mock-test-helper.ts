@@ -1,4 +1,4 @@
-import type {FirestoreInstance } from '../src/core/cache';
+import type {FirestoreInstance } from '../src/core/index';
 // --- Mocks ---
 
 // Mock DocumentSnapshot

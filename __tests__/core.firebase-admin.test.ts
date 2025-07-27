@@ -1,4 +1,4 @@
-import { createRequestCache, DocumentReferenceType } from '../src/core/cache';
+import { createRequestCache, DocumentReferenceType } from '../src/core/index';
 import {v4 as uuidV4} from 'uuid';
 import admin from 'firebase-admin';
 

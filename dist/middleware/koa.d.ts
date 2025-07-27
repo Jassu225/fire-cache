@@ -1,5 +1,5 @@
 import type { Context, Next } from 'koa';
-import { FirestoreInstance } from '../core/cache.js';
+import { FirestoreInstance } from '../core/index';
 /**
  * Creates a Koa middleware that enables request-level caching for Firestore.
  *

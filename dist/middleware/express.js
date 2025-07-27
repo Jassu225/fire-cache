@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fireCacheMiddleware = fireCacheMiddleware;
-const cache_js_1 = require("../core/cache.js");
+const index_1 = require("../core/index");
 const on_finished_1 = __importDefault(require("on-finished"));
 /**
  * Creates an Express middleware that enables request-level caching for Firestore.
@@ -14,7 +14,7 @@ const on_finished_1 = __importDefault(require("on-finished"));
  */
 function fireCacheMiddleware(firestore) {
     return (_, res, next) => {
-        const cleanup = (0, cache_js_1.createRequestCache)(firestore);
+        const cleanup = (0, index_1.createRequestCache)(firestore);
         (0, on_finished_1.default)(res, cleanup);
         next();
     };

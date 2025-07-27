@@ -2,7 +2,7 @@ import { INestApplication, Controller, Get, Inject } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { FireCacheInterceptor, FIRESTORE_INSTANCE_PROVIDER } from '../src/middleware/nestjs';
-import type { FirestoreInstance, DocumentReferenceType } from '../src/core/cache'; // Changed to import type
+import type { FirestoreInstance, DocumentReferenceType } from '../src/core/index'; // Changed to import type
 import { serviceAccount, testCollection } from './test-helper';
 import admin from 'firebase-admin';
 import { v4 as uuidV4 } from 'uuid';

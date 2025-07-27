@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { FirestoreInstance } from '../core/cache.js';
+import { FirestoreInstance } from '../core/index';
 /**
  * Creates an Express middleware that enables request-level caching for Firestore.
  *

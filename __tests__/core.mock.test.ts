@@ -1,4 +1,4 @@
-import { createRequestCache } from '../src/core/cache';
+import { createRequestCache } from '../src/core/index';
 import { getCallCountRef, mockFirestore } from './mock-test-helper';
 
 // --- Tests ---

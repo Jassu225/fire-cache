@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fireCacheMiddleware = fireCacheMiddleware;
-const cache_js_1 = require("../core/cache.js");
+const index_1 = require("../core/index");
 /**
  * Creates a Koa middleware that enables request-level caching for Firestore.
  *
@@ -10,7 +10,7 @@ const cache_js_1 = require("../core/cache.js");
  */
 function fireCacheMiddleware(firestore) {
     return async (ctx, next) => {
-        const cleanup = (0, cache_js_1.createRequestCache)(firestore);
+        const cleanup = (0, index_1.createRequestCache)(firestore);
         try {
             await next();
         }

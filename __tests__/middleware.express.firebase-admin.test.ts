@@ -1,7 +1,7 @@
 import express from 'express';
 import request from 'supertest';
 import { fireCacheMiddleware } from '../src/middleware/express';
-import { DocumentReferenceType } from '../src/core/cache';
+import { DocumentReferenceType } from '../src/core/index';
 import { serviceAccount, testCollection } from './test-helper';
 import admin from 'firebase-admin';
 import { v4 as uuidV4 } from 'uuid';

@@ -11,7 +11,7 @@ exports.FireCacheModule = exports.FIRESTORE_INSTANCE_PROVIDER = void 0;
 exports.FireCacheInterceptor = FireCacheInterceptor;
 const common_1 = require("@nestjs/common");
 const operators_1 = require("rxjs/operators");
-const cache_js_1 = require("../core/cache.js");
+const index_1 = require("../core/index");
 /**
  * Creates a NestJS Interceptor that enables request-level caching for Firestore.
  * This interceptor should be provided with a Firestore instance.
@@ -19,7 +19,7 @@ const cache_js_1 = require("../core/cache.js");
 function FireCacheInterceptor(firestore) {
     let CacheInterceptor = class CacheInterceptor {
         intercept(context, next) {
-            const cleanup = (0, cache_js_1.createRequestCache)(firestore);
+            const cleanup = (0, index_1.createRequestCache)(firestore);
             return next.handle().pipe((0, operators_1.tap)({
                 // The `finalize` operator would be better, but `tap` with `complete` and `error` covers most cases.
                 complete: cleanup,

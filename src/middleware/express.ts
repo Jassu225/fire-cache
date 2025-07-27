@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { createRequestCache, FirestoreInstance } from '../core/cache.js';
+import { createRequestCache, FirestoreInstance } from '../core/index';
 import onFinished from 'on-finished';
 
 /**

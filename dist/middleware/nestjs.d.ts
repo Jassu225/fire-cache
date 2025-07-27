@@ -1,5 +1,5 @@
 import { NestInterceptor } from '@nestjs/common';
-import { FirestoreInstance } from '../core/cache.js';
+import { FirestoreInstance } from '../core/index';
 /**
  * Creates a NestJS Interceptor that enables request-level caching for Firestore.
  * This interceptor should be provided with a Firestore instance.

@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import request from 'supertest';
 import { fireCacheMiddleware } from '../src/middleware/koa';
-import { FirestoreInstance } from '../src/core/cache';
+import { FirestoreInstance } from '../src/core/index';
 import { getCallCountRef, mockFirestore } from './mock-test-helper';
 
 describe('Koa Middleware', () => {

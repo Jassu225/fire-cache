@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import request from 'supertest';
 import { fireCacheMiddleware } from '../src/middleware/koa';
-import type { FirestoreInstance, DocumentReferenceType } from '../src/core/cache';
+import type { FirestoreInstance, DocumentReferenceType } from '../src/core/index';
 import { serviceAccount, testCollection } from './test-helper';
 import admin from 'firebase-admin';
 import { v4 as uuidV4 } from 'uuid';

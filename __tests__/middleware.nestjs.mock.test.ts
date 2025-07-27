@@ -2,7 +2,7 @@ import { INestApplication, Controller, Get, Inject } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { FireCacheInterceptor, FIRESTORE_INSTANCE_PROVIDER } from '../src/middleware/nestjs';
-import * as cache from '../src/core/cache';
+import * as cache from '../src/core/index';
 import { getCallCountRef, mockFirestore } from './mock-test-helper';
 
 @Controller('test')
