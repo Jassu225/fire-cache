@@ -38,6 +38,9 @@
   },
   "files": [
     "dist",
+    "src",
+    "__tests__",
+    ".env.example",
     "README.md"
   ],
   "scripts": {
@@ -57,7 +60,7 @@
     "typescript",
     "middleware"
   ],
-  "author": "",
+  "author": "Jaswanth Sai Sattenapalli <jaswanthsaisattenapalli@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
     "@google-cloud/firestore": ">=7.0.0",
