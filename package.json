@@ -25,6 +25,11 @@
       "require": "./dist/middleware/koa.js",
       "types": "./dist/middleware/koa.d.ts"
     },
+    "./core": {
+      "import": "./dist/core/index.js",
+      "require": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
+    },
     "./core/cache": {
       "import": "./dist/core/cache.js",
       "require": "./dist/core/cache.js",
