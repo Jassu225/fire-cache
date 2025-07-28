@@ -1,11 +1,11 @@
 # fire-memoize
 
-**fire-memoize** is a minimalist, transparent, request-scoped caching library for Google Firestore (Node.js), designed for use with Express, NestJS, and Koa. It dramatically reduces redundant Firestore reads within a single request, while guaranteeing data freshness and type safety.
+**fire-memoize** is a minimalist, transparent, request-scoped caching library for Google Firestore (Node.js), designed for use with Express, NestJS, Koa, and Fastify. It dramatically reduces redundant Firestore reads within a single request, while guaranteeing data freshness and type safety.
 
 ## Features
 
 - ⚡ **Zero-config, request-scoped cache** for Firestore document reads
-- 🧩 **Works with Express, NestJS, and Koa** via simple middleware
+- 🧩 **Works with Express, NestJS, Koa, and Fastify** via simple middleware
 - 🔒 **Type-safe**: Supports both `firebase-admin` and `@google-cloud/firestore` SDKs
 - 🧪 **Battle-tested**: Includes both mock-based and real Firestore integration tests
 - 🦾 **No stale queries**: Only caches documents, never query result sets
@@ -23,6 +23,7 @@ Depending on your framework of choice, you may need to install additional packag
 - `@nestjs/common` (for NestJS)
 - `on-finished` (for Express)
 - `rxjs` (for Koa)
+- `fastify` (for Fastify)
 
 ## Usage
 
@@ -30,7 +31,7 @@ Depending on your framework of choice, you may need to install additional packag
 
 ```ts
 import express from "express";
-import { createExpressFirestoreCache } from "fire-memoize/middleware/express";
+import { fireCacheMiddleware } from "fire-memoize/middleware/express";
 import admin from "firebase-admin";
 
 // Initialize Firebase Admin SDK
@@ -40,7 +41,7 @@ admin.initializeApp({
 const firestore = admin.firestore();
 
 const app = express();
-app.use(createExpressFirestoreCache(firestore));
+app.use(fireCacheMiddleware(firestore));
 
 // ... your Express routes and middleware
 ```
@@ -49,7 +50,7 @@ app.use(createExpressFirestoreCache(firestore));
 
 ```ts
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { createNestjsFirestoreCache } from "fire-memoize/middleware/nestjs";
+import { FireCacheModule } from "fire-memoize/middleware/nestjs";
 import admin from "firebase-admin";
 
 // Initialize Firebase Admin SDK
@@ -59,20 +60,19 @@ admin.initializeApp({
 const firestore = admin.firestore();
 
 @Module({
-  // Your module configuration
+  imports: [
+    FireCacheModule.forRoot({ firestore }),
+    // ... your other modules
+  ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(createNestjsFirestoreCache(firestore)).forRoutes("*");
-  }
-}
+export class AppModule {}
 ```
 
 ### 3. Koa
 
 ```ts
 import Koa from "koa";
-import { createKoaFirestoreCache } from "fire-memoize/middleware/koa";
+import { fireCacheMiddleware } from "fire-memoize/middleware/koa";
 import admin from "firebase-admin";
 
 // Initialize Firebase Admin SDK
@@ -82,10 +82,33 @@ admin.initializeApp({
 const firestore = admin.firestore();
 
 const app = new Koa();
-app.use(createKoaFirestoreCache(firestore));
+app.use(fireCacheMiddleware(firestore));
 
 // ... your Koa routes and middleware
 ```
+
+### 4. Fastify
+
+```ts
+import Fastify from "fastify";
+import { registerHooks } from "fire-memoize/middleware/fastify";
+import admin from "firebase-admin";
+
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  /* ... your Firebase config ... */
+});
+const firestore = admin.firestore();
+
+const fastify = Fastify();
+
+// Register the fire-memoize hooks
+registerHooks(fastify, firestore);
+
+// ... your Fastify routes and middleware
+```
+
+> **Note**: Fastify v3.0.0+ requires external middleware plugins. If you need Express-style middleware support, you can use `@fastify/express` or `@fastify/middie` plugins. However, the `registerHooks` function provided by fire-memoize works natively with Fastify's plugin system and doesn't require additional middleware plugins.
 
 ## How It Works
 
@@ -253,9 +276,10 @@ export async function GET(
 
 The following functions provide ready-to-use middleware for your chosen framework:
 
-- `createExpressFirestoreCache(firestore)`
-- `createNestjsFirestoreCache(firestore)`
-- `createKoaFirestoreCache(firestore)`
+- `fireCacheMiddleware(firestore)` (Express middleware)
+- `FireCacheModule.forRoot({ firestore })` (NestJS module)
+- `fireCacheMiddleware(firestore)` (Koa middleware)
+- `registerHooks(fastify, firestore)` (Fastify hooks)
 
 Each middleware function automatically sets up the request-scoped cache at the beginning of a request and tears it down (clearing the cache and restoring original Firestore methods) when the request finishes.
 
