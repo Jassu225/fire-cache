@@ -2,13 +2,13 @@
   "name": "fire-memoize",
   "version": "0.2.1",
   "description": "Request-scoped, type-safe Firestore cache for Express, NestJS, and Koa.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/core/index.js",
+  "types": "dist/core/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/core/index.js",
+      "require": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
     },
     "./middleware/express": {
       "import": "./dist/middleware/express.js",
