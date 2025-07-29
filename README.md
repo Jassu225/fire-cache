@@ -32,13 +32,23 @@ Depending on your framework of choice, you may need to install additional packag
 ```ts
 import express from "express";
 import { fireCacheMiddleware } from "fire-memoize/middleware/express";
-import admin from "firebase-admin";
+import admin, { ServiceAccount } from "firebase-admin";
 
-// Initialize Firebase Admin SDK
-admin.initializeApp({
-  /* ... your Firebase config ... */
-});
-const firestore = admin.firestore();
+const firebaseApp = !admin.apps.length
+  ? admin.initializeApp({
+      credential: admin.credential.cert(
+        JSON.parse(
+          Buffer.from(
+            // value in FIREBASE_SERVICE_ACCOUNT is btoa(JSON.stringify(<service_account.json>))
+            process.env.FIREBASE_SERVICE_ACCOUNT as string,
+            "base64"
+          ).toString("utf-8")
+        ) as ServiceAccount
+      ),
+    })
+  : admin.app();
+
+const firestore = admin.firestore(firebaseApp);
 
 const app = express();
 app.use(fireCacheMiddleware(firestore));
@@ -51,13 +61,23 @@ app.use(fireCacheMiddleware(firestore));
 ```ts
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { FireCacheModule } from "fire-memoize/middleware/nestjs";
-import admin from "firebase-admin";
+import admin, { ServiceAccount } from "firebase-admin";
 
-// Initialize Firebase Admin SDK
-admin.initializeApp({
-  /* ... your Firebase config ... */
-});
-const firestore = admin.firestore();
+const firebaseApp = !admin.apps.length
+  ? admin.initializeApp({
+      credential: admin.credential.cert(
+        JSON.parse(
+          Buffer.from(
+            // value in FIREBASE_SERVICE_ACCOUNT is btoa(JSON.stringify(<service_account.json>))
+            process.env.FIREBASE_SERVICE_ACCOUNT as string,
+            "base64"
+          ).toString("utf-8")
+        ) as ServiceAccount
+      ),
+    })
+  : admin.app();
+
+const firestore = admin.firestore(firebaseApp);
 
 @Module({
   imports: [
@@ -73,13 +93,23 @@ export class AppModule {}
 ```ts
 import Koa from "koa";
 import { fireCacheMiddleware } from "fire-memoize/middleware/koa";
-import admin from "firebase-admin";
+import admin, { ServiceAccount } from "firebase-admin";
 
-// Initialize Firebase Admin SDK
-admin.initializeApp({
-  /* ... your Firebase config ... */
-});
-const firestore = admin.firestore();
+const firebaseApp = !admin.apps.length
+  ? admin.initializeApp({
+      credential: admin.credential.cert(
+        JSON.parse(
+          Buffer.from(
+            // value in FIREBASE_SERVICE_ACCOUNT is btoa(JSON.stringify(<service_account.json>))
+            process.env.FIREBASE_SERVICE_ACCOUNT as string,
+            "base64"
+          ).toString("utf-8")
+        ) as ServiceAccount
+      ),
+    })
+  : admin.app();
+
+const firestore = admin.firestore(firebaseApp);
 
 const app = new Koa();
 app.use(fireCacheMiddleware(firestore));
@@ -92,13 +122,24 @@ app.use(fireCacheMiddleware(firestore));
 ```ts
 import Fastify from "fastify";
 import { registerHooks } from "fire-memoize/middleware/fastify";
-import admin from "firebase-admin";
+import admin, { ServiceAccount } from "firebase-admin";
 
 // Initialize Firebase Admin SDK
-admin.initializeApp({
-  /* ... your Firebase config ... */
-});
-const firestore = admin.firestore();
+const firebaseApp = !admin.apps.length
+  ? admin.initializeApp({
+      credential: admin.credential.cert(
+        JSON.parse(
+          Buffer.from(
+            // value in FIREBASE_SERVICE_ACCOUNT is btoa(JSON.stringify(<service_account.json>))
+            process.env.FIREBASE_SERVICE_ACCOUNT as string,
+            "base64"
+          ).toString("utf-8")
+        ) as ServiceAccount
+      ),
+    })
+  : admin.app();
+
+const firestore = admin.firestore(firebaseApp);
 
 const fastify = Fastify();
 
@@ -143,18 +184,25 @@ For Next.js API routes or getServerSideProps, you can easily integrate fire-memo
 ```ts
 // pages/api/users.ts
 import type { NextApiRequest, NextApiResponse } from "next";
-import admin from "firebase-admin";
+import admin, { ServiceAccount } from "firebase-admin";
 import { createRequestCache } from "fire-memoize/core"; // Import from the core module
 
 // Initialize Firebase Admin SDK (do this once globally in a real app, e.g., in lib/firebaseAdmin.ts)
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    projectId: process.env.FIREBASE_PROJECT_ID, // Use environment variable
-  });
-}
+const firebaseApp = !admin.apps.length
+  ? admin.initializeApp({
+      credential: admin.credential.cert(
+        JSON.parse(
+          Buffer.from(
+            // value in FIREBASE_SERVICE_ACCOUNT is btoa(JSON.stringify(<service_account.json>))
+            process.env.FIREBASE_SERVICE_ACCOUNT as string,
+            "base64"
+          ).toString("utf-8")
+        ) as ServiceAccount
+      ),
+    })
+  : admin.app();
 
-const firestore = admin.firestore();
+const firestore = admin.firestore(firebaseApp);
 
 export default async function handler(
   req: NextApiRequest,
@@ -203,18 +251,24 @@ Integrating fire-memoize with Next.js App Router `route.ts` files is similar to 
 ```ts
 // app/api/users/[userId]/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import admin from "firebase-admin";
+import admin, { ServiceAccount } from "firebase-admin";
 import { createRequestCache } from "fire-memoize/core"; // Import from the core module
 
-// Initialize Firebase Admin SDK (do this once globally in a real app, e.g., in lib/firebaseAdmin.ts)
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    projectId: process.env.FIREBASE_PROJECT_ID, // Use environment variable
-  });
-}
+const firebaseApp = !admin.apps.length
+  ? admin.initializeApp({
+      credential: admin.credential.cert(
+        JSON.parse(
+          Buffer.from(
+            // value in FIREBASE_SERVICE_ACCOUNT is btoa(JSON.stringify(<service_account.json>))
+            process.env.FIREBASE_SERVICE_ACCOUNT as string,
+            "base64"
+          ).toString("utf-8")
+        ) as ServiceAccount
+      ),
+    })
+  : admin.app();
 
-const firestore = admin.firestore();
+const firestore = admin.firestore(firebaseApp);
 
 export async function GET(
   request: NextRequest,
