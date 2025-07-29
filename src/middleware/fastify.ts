@@ -1,6 +1,8 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { createRequestCache, FirestoreInstance } from "../core/index";
 
+export const CLEAN_UP_KEY = Symbol();
+
 /**
  * Creates a Fastify plugin that registers the Firestore cache middleware.
  * This is the recommended way to use fire-memoize with Fastify.
@@ -21,7 +23,7 @@ export function registerHooks(
       const cleanup = createRequestCache(firestore);
 
       // Store cleanup function in request context for later use
-      (req as any).fireCacheCleanup = cleanup;
+      (req as any)[CLEAN_UP_KEY] = cleanup;
     }
   );
 
@@ -29,7 +31,7 @@ export function registerHooks(
   fastify.addHook(
     "onResponse",
     (request: FastifyRequest, reply: any, done: () => void) => {
-      const cleanup = (request as any).fireCacheCleanup;
+      const cleanup = (request as any)[CLEAN_UP_KEY];
       if (cleanup) {
         cleanup();
       }

@@ -1,4 +1,4 @@
-import { registerHooks } from "../src/middleware/fastify";
+import { CLEAN_UP_KEY, registerHooks } from "../src/middleware/fastify";
 import { mockFirestore, getCallCountRef } from "./mock-test-helper";
 
 // Mock Fastify
@@ -42,7 +42,7 @@ describe("Fastify Middleware", () => {
     await preHandlerHook(mockReq, mockReply);
 
     // Verify that the cleanup function was stored in the request
-    expect((mockReq as any).fireCacheCleanup).toBeDefined();
+    expect((mockReq as any)[CLEAN_UP_KEY]).toBeDefined();
 
     // Test the caching behavior
     const docRef = firestore.collection("users").doc("user1");
